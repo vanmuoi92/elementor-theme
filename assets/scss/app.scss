@@ -1,0 +1,11 @@
+@import "../../node_modules/bootstrap/scss/functions";
+@import "variables";
+@import "../../node_modules/bootstrap/scss/variables";
+@import "../../node_modules/bootstrap/scss/mixins";
+// ref docs: https://getbootstrap.com/docs/5.0/layout/breakpoints/
+
+@import "./common/heading";
+@import "./common/buttons";
+@import "./common/header";
+@import "./common/footer";
+@import "./common/main.scss";

@@ -1,0 +1,206 @@
+<?php
+
+
+if (!defined('ABSPATH')) {
+    exit; // Exit if accessed directly.
+}
+
+/**
+ * Elementor oEmbed Widget.
+ *
+ * Elementor widget that inserts an embbedable content into the page, from any given URL.
+ *
+ * @since 1.0.0
+ */
+class CM_Slide_Step extends \Elementor\Widget_Base
+{
+
+    public function __construct($data = [], $args = null)
+    {
+        parent::__construct($data, $args);
+        wp_register_style('slick', CM_Util::get_assets_url('libs/slick/slick.css'), array(), _S_VERSION);
+        wp_register_style('slick-theme', CM_Util::get_assets_url('libs/slick/slick-theme.css'), array(), _S_VERSION);
+        wp_register_script('slick', CM_Util::get_assets_url('libs/slick/slick.js'), array('jquery', 'elementor-frontend'), _S_VERSION, true);
+
+        wp_register_style('CM_Slide_Step_css', CM_Util::get_assets_url('css/components/CM_Slide_Step.css'), array(), _S_VERSION);
+        wp_register_script('CM_Slide_Step_js', CM_Util::get_assets_url('scripts/components/CM_Slide_Step.js'), array('jquery', 'elementor-frontend', 'slick'), _S_VERSION, true);
+
+        //add_action('wp_enqueue_scripts', [$this, 'load_scripts'], 9999);
+    }
+
+    // public function load_scripts()
+    // {
+    //     wp_enqueue_style('CM_Slider');
+    //     wp_enqueue_script('CM_Slider');
+    // }
+
+    public function get_script_depends()
+    {
+        return ['CM_Slide_Step_js', 'slick'];
+    }
+    public function get_style_depends()
+    {
+        return ['CM_Slide_Step_css', 'slick', 'slick-theme'];
+    }
+
+    /**
+     * Get widget name.
+     *
+     * Retrieve oEmbed widget name.
+     *
+     * @since 1.0.0
+     * @access public
+     * @return string Widget name.
+     */
+    public function get_name()
+    {
+        return 'slide-step';
+    }
+
+    /**
+     * Get widget title.
+     *
+     * Retrieve oEmbed widget title.
+     *
+     * @since 1.0.0
+     * @access public
+     * @return string Widget title.
+     */
+    public function get_title()
+    {
+        return esc_html__('CM  Slide Step', 'tcc-theme');
+    }
+
+    /**
+     * Get widget icon.
+     *
+     * Retrieve oEmbed widget icon.
+     *
+     * @since 1.0.0
+     * @access public
+     * @return string Widget icon.
+     */
+    public function get_icon()
+    {
+        return 'eicon-slides';
+    }
+
+    /**
+     * Get custom help URL.
+     *
+     * Retrieve a URL where the user can get more information about the widget.
+     *
+     * @since 1.0.0
+     * @access public
+     * @return string Widget help URL.
+     */
+    public function get_custom_help_url()
+    {
+        return '';
+    }
+
+    /**
+     * Get widget categories.
+     *
+     * Retrieve the list of categories the oEmbed widget belongs to.
+     *
+     * @since 1.0.0
+     * @access public
+     * @return array Widget categories.
+     */
+    public function get_categories()
+    {
+        return ['cm-category'];
+    }
+
+    /**
+     * Get widget keywords.
+     *
+     * Retrieve the list of keywords the oEmbed widget belongs to.
+     *
+     * @since 1.0.0
+     * @access public
+     * @return array Widget keywords.
+     */
+    public function get_keywords()
+    {
+        return ['CM Slide Step'];
+    }
+
+    /**
+     * Register oEmbed widget controls.
+     *
+     * Add input fields to allow the user to customize the widget settings.
+     *
+     * @since 1.0.0
+     * @access protected
+     */
+    protected function register_controls()
+    {
+
+        $this->start_controls_section(
+            'content_section',
+            [
+                'label' => esc_html__('Content', 'tcc-theme'),
+                'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
+            ]
+        );
+
+        $this->add_control(
+            'title_slide',
+            [
+                'label' => esc_html__('Title Slide', 'tcc-theme'),
+                'type' => \Elementor\Controls_Manager::TEXT,
+
+            ]
+        );
+
+        $this->add_control(
+            'slide',
+            [
+                'label' => esc_html__('Slide Item', 'tcc-theme'),
+                'type' => \Elementor\Controls_Manager::REPEATER,
+                'fields' => [
+                    [
+                        'name' => 'title',
+                        'label' => esc_html__('Title', 'tcc-theme'),
+                        'type' => \Elementor\Controls_Manager::TEXT,
+                        'placeholder' => esc_html__('Title', 'tcc-theme'),
+                        'default' => esc_html__('Title', 'tcc-theme'),
+                    ],
+                    [
+                        'name' => 'content',
+                        'label' => esc_html__('Content', 'tcc-theme'),
+                        'type' => \Elementor\Controls_Manager::WYSIWYG,
+                        'placeholder' => esc_html__('Title', 'tcc-theme'),
+                        'default' => esc_html__('Title', 'tcc-theme'),
+                    ],
+
+                ],
+
+            ]
+        );
+
+        $this->end_controls_section();
+    }
+
+    /**
+     * Render oEmbed widget output on the frontend.
+     *
+     * Written in PHP and used to generate the final HTML.
+     *
+     * @since 1.0.0
+     * @access protected
+     */
+    protected function render()
+    {
+        $settings = $this->get_settings_for_display();
+
+        echo CM_Template::get_template_part('cm-slide-step', $settings);
+    }
+
+    protected function content_template()
+    {
+        //echo CM_Template::get_template_part('cm-text-slider', ['mode' => 'review']);
+    }
+}

@@ -1,0 +1,39 @@
+@mixin mobile-breakpoint-up {
+	@content;
+}
+
+@mixin mobile-breakpoint-down {
+	@include media-breakpoint-down(sm) {
+		@content;
+	}
+}
+
+@mixin tablet-breakpoint-up {
+	@include media-breakpoint-up(sm) {
+		@content;
+	}
+}
+
+@mixin tablet-breakpoint-down {
+	@include media-breakpoint-down(md) {
+		@content;
+	}
+}
+
+@mixin pc-breakpoint-up {
+	@include media-breakpoint-up(md) {
+		@content;
+	}
+}
+
+@mixin pc-breakpoint-down {
+	@include media-breakpoint-down(lg) {
+		@content;
+	}
+}
+
+@mixin over-pc-breakpoint-up {
+	@include media-breakpoint-up(lg) {
+		@content;
+	}
+}
